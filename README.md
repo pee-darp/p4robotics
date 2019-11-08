@@ -8,5 +8,5 @@ Example for running code from class2:
 ```bash
 cd ~/<insert folder path>/class2/
 make primes
-./primes.c
+./primes
 ```
