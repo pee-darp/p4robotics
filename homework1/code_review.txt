@@ -1,0 +1,16 @@
+Good comments:
+-Well compartmentalized
+-Easy to comprehend
+-Aesthetically pleasing
+-Functions are well named
+-did not use malloc
+
+
+
+
+
+
+Constructive comments:
+- Maybe too compartmentalized
+- Structures unnecessary
+- separate error checking functions maybe?

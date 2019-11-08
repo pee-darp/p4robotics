@@ -1,0 +1,80 @@
+additive_expr(**str) {
+    value = multiplicative_expr(str);         <----
+    while (peak(str) == '+' or '-') {
+        if (parse_token(str) == '+') {
+            value += multiplicative_expr(str);
+        } else {
+            value -= multiplicative_expr(str);
+        }
+    }
+    return value;
+}
+
+multiplicative_expr(**str) {
+    value = paranthesis_expr(**str);         <----
+    while (peak(str) == '*' or '/') {
+        if (parse_token(str) == '*') {
+            value *= paranthesis_expr(str);
+        } else {
+            value /= paranthesis_expr(str);
+        }
+    }
+    return value;
+}
+
+
+paranthesis_expr(**str) {
+    value = 0;
+    if (peak(str)!= '(') {
+        //parse_token(str);
+        value = num_literal(str)
+    }
+    parse_token(str);
+    value += additive_expr(str);                     <----
+    if (parse_token(str) != ')') {
+        raise exception;
+    }
+}
+
+num_literal(**str) {
+    int sign = 1;
+    value = 0;
+    if (peak(str) == '+' or '-') {
+        if (peak(str) == '-') {
+            sign = -1;
+        }
+        parse_token(str);
+    }
+    if (peak(str) is a digit) {
+        value = digits(str);
+        if (peak(str) is a decimal) {
+            parse_token(str)
+        }
+    }
+    else {
+        if (parse_token is not a decimal) {
+            raise exception;
+        }
+        digits(str);
+    }
+    return (sign * num_literal);
+}
+
+digits(**str) {
+    value = 0;
+    while (isdigit(peak(str))) {
+        value = value*10 + digit(str);
+    }
+    return value;
+}
+
+digit(**str) {
+    if (isdigit(peak_token(str))) {
+        return int(parse_token(str));
+    }
+}
+
+
+main(int argc, char **argv) {
+    additive_expr(equation);
+}

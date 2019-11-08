@@ -1,0 +1,64 @@
+Algorithmic thinking:
+1) Problems are solved by breaking them into smaller problems and solving them.
+2) But, how small should a small problem be?
+3) Probably as small as the size that my brain can comprehend.
+4) Once, I break it down, how do I express it in algorithmic words?
+5) Any coding line is one of the following ________ things:
+    a) Creating/Accessing a variable / data structure and assigning values to it.
+    b) Computation on the variable (Arithmetic | Logical)
+    c) Controlling the flow of program using loops or conditional statements.
+
+Computer Human equivalence:
+1) A human has 5 senses to absorb information from
+2) A human has memory in his brain to store that information. If the information is sophisticated, he may have to write it down.
+3) A human possesses the analytical skills to then perform computation on the information and think logically
+
+1) A computer has RAM for its memory.
+2) Unless specified, There are no other senses to the computer. It relies on us to feed it some informtion.
+  We feed information to the computer through keyboard or mouse and it stores that information in its memory.
+3) A computer has a CPU for performing computation on the information.
+
+
+---------------Example walkthrough for a coding problem:---------------
+
+Problem: Input = [File containing some text, a Keyword to search for in the text, a number indicating how many lines to print]
+        Output = [as many number of lines before the keyword as specified in the last argument]
+
+Problem Breakup:
+Human steps: (Assume human to be blind and deaf but well versed in braille)
+1) User writes the inputs on a piece of paper and gives it to me
+2) I search for the keyword in the text
+3) Once I get the first instance of the keyword, I highlight it with a marker
+4) I repeat process 2) and 3) till I reach the end of the text.
+5) I print the necessary lines for the first keyword.
+6) I repeat process 5 for all keywords.
+
+Its better to break down the sub problems such that each of the sub problems also has an input output structure.
+Computer steps:
+1) Read the file name and store its text in variables/data strutures.
+  Input: File name, keyword, number of lines
+  Output: [pointer to the character array where the text is stored, variables]
+
+  1a) Open the file and create its file pointer. (If file is not found, return an error)
+  1b) Create a file buffer to hold the contents of the file.
+  1c) Read byte at the file pointer and store it in the file buffer
+  1d) Increment the file pointer and file buffer index and repeat 1c) till end of file is reached.
+  1e) Return the pointer pointing to the file buffer.
+
+2) Search for the first instance of the keyword in the text
+  Input: Pointer to the character array of the start of text, keyword
+  Output: Pointer to the location where the keyword was found.
+
+  2a) Initialize indexing variables
+  2b) Replace all the spaces in the text with Null characters
+  2c) Compare each word with the key word
+  2d) if a keyword is found, print_lines_before(location, no of lines)
+  2e) Repeat 2d and 2e for all words in the text.
+
+3) Print the lines before the keyword instance
+  Input: number of lines, Pointer to the location from which the lines are to be printed
+  Output: Print the required lines upto the pointer location.
+
+  3a) Till n number of new lines are found, decrement the word you are looking for (prev_word(char pointer,delimiter), nxt_word(delimiter))
+  3b) prev_word returns the pointer to the previous word and optionally prints the word
+  3c) Till you reach the keyword, increment and print the words

@@ -1,0 +1,26 @@
+Note from previous homeworks:
+1) Use as less headers and functions as necessary while ensuring independence and minimal functionality of each piece.
+--> Use a header file for all data structures.
+--> Use a graphics.c file for all graphics related functions
+--> Use a physics.c file for all physics functions.
+
+Maybe make a folder for each of these utilities.
+
+2) Physics related utilities:
+  a) Collision detection.
+
+3) Graphics related utilities:
+  a)set_color_pixel(x,y,bmp,color) - given pixel coordinates, bmp file and a colour, draw the pixel.
+  b)plotLine(x1,y1,x2,y2,bmp,color) - given line coordinates, bmp file and a colour, draw the line.
+  c)calcRect(width, height, bmp, color) - given width and height of a rectangle, calculate path of the rectangle.
+  d)roundPoly(polygon_t) - given a list of coordinates, round them.
+  e)plotPoly(pixel_t list, bool fill) - given a list of vertices to plot, plot the polygon based on whether it needs to be filled or not.
+  f)calcTriangle(size) - given size of triangle, calculate a triangle of some fixed ratio.
+  g)rotPoly
+  h)transPoly
+  i)bmp utilities
+
+4) Data structures:
+  a)bitmap_t
+  b)polygon_t
+  c)

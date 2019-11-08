@@ -1,0 +1,24 @@
+structures:
+tst_node_t
+tst_t
+
+
+Functions:
+tst_node_t    *tst_node_create                    (char c) ;
+void          tst_node_destroy                    (tst_node_t *node);
+tst_t         *tst_create                         (void);
+void          tst_destroy                         (tst_t *tst);
+void          tst_add                             (tst_t *tst, const char *word);
+void          tst_node_search                     (tst_node_t *node, char *word, char *suggestion, char *sugg_start, int errs);
+void          tst_search                          (tst_t *tst, char *word);
+
+
+tst_add:
+Given a word and a tree, Insert that word into the tree.
+
+
+
+
+Two parts to the whole problem:
+1) Build the tree with given word_suggestion
+2) Search the tree for a given word.

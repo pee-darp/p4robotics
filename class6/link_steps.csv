@@ -1,0 +1,9 @@
+pop_start
+push_end 9
+push_end 4
+push_end 5
+push_start 3
+pop_end
+pop_start
+pop_start
+pop_start
