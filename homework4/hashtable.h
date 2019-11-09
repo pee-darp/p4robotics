@@ -29,3 +29,5 @@ int hashtable_probe_max(hashtable_t *ht);
 bool hashtable_probe(hashtable_t *ht, int i, char **key, int *val);
 
 void hashtable_grow(hashtable_t *ht);
+
+void hashtable_check_collision(hashtable_t *ht, char *key);

@@ -1,68 +1,74 @@
+#define _GNU_SOURCE
 #include "hashtable.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <string.h>
 
-typedef struct buffer {
-    int capacity;
-    int size;
-    char *buff;
-} buffer_t;
-
-void skip_to_alpha(FILE *fp) {
-    char letter;
-    while(1) {
-        
+void skip_to_alpha(void *fp) {
+    while (!isalpha(fgetc(fp)) && !feof(fp)) {
+    }
+    if (!feof(fp)) {
+        fseek(fp, -1, SEEK_CUR);
     }
 }
+
 int read_word(void *fp, char *word, int max_word_len) {
     int i = 0;
-    while (i < max_word_len) {
-        word[i] = fgetc(fp);
-        if (!isalpha(word[i])) {
-            word[i] == '\0';
+    while (i < max_word_len && !feof(fp)) {
+        word[i] = (char)fgetc(fp);
+        if (!isalpha(word[i]) || feof(fp)) {
+            word[i] = '\0';
             break;
         }
         i++;
     }
-    while(!isalpha(fgetc(fp))) {
-
-    }
-    fp--;
+    skip_to_alpha(fp);
     return i;
 }
 
-void read_n_words(buffer_t *word_buff, int n_words, FILE *fp) {
-    skip_to_alpha(fp);
-    read_word(fp, word_buff->buff, word_buff->capacity);
-}
-
 int main(int argc, char *argv[]) {
-
     FILE *fp = fopen("book.txt", "r");
-
-    buffer_t word_buff;
-    word_buff.capacity = 256;
-    word_buff.size = 0;
-    word_buff.buff = malloc(word_buff.capacity);
-
+    char *word = malloc(256);
+    //char *prev_word = malloc(256);
+    char *buffer = malloc(513);
     hashtable_t *bigrams = hashtable_create();
-
-    while (1) {
-        read_n_words(&word_buff, 2, fp); //leaves fp after the last letter. and buff at end of word.
-        go_back_n_words(fp, 1); //brings fp to start of previous nth word.
-        *(word_buff.buff + 1) = '\0';
-        hashtable_set(bigrams, word_buff.buff, 1); //change hashtable_set to increase value when slot is filled and key also matches.
-        clear_buffer(&word_buff);
-        if (check_eof(fp)) {
-            break;
+    int most_bigrams = 0;
+    int *bg_ptr = &most_bigrams;
+    bool print_all = true;
+    read_word(fp, word, 256);
+    while (!feof(fp)) {
+        char *prev_word = strdup(word);
+        read_word(fp, word, 256);
+        snprintf(buffer, 513, "%s %s", prev_word, word);
+        hashtable_set(bigrams, buffer, 1);
+        free(prev_word);
+    }
+    char **key = malloc(hashtable_probe_max(bigrams) * sizeof(key));
+    for (int i = 0; i < hashtable_probe_max(bigrams); i++) {
+        if (hashtable_probe(bigrams, i, key, bg_ptr)) {
+            if (*bg_ptr >= 200) {
+                printf("Bigram '%s' has count of %d\n", key[i], *bg_ptr);
+                print_all = false;
+            }
         }
     }
-
-    for (int i = 0; i < hashtable_probe_max(bigrams); i++) {
-        //TBW
+    if (print_all) {
+        char **keys = malloc(hashtable_probe_max(bigrams) * sizeof(keys));
+        for (int i = 0; i < hashtable_probe_max(bigrams); i++) {
+            if (hashtable_probe(bigrams, i, keys, bg_ptr)) {
+                printf("Bigram '%s' has count of %d\n", key[i], *bg_ptr);
+            }
+        }
+        free(keys);
     }
+    printf("Total of %d different bigrams recorded\n", hashtable_size(bigrams));
+    free(key);
+    free(word);
+    free(buffer);
+    hashtable_destroy(bigrams);
     return 0;
 }

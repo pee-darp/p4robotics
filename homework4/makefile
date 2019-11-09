@@ -11,3 +11,6 @@ test:test.c hashtable.c
 
 test_file:test_file.c
 	gcc -o $@ $^ $(CFLAGS)
+
+bigrams:bigrams.c hashtable.c
+	gcc -o $@ $^ $(CFLAGS)
